@@ -13,7 +13,7 @@ const sequelize = new Sequelize('database', "test_user", "test_password", {
   storage: '.data/database.sqlite'
 });
 
-function test(req, res){
+function testdb(req, res){
 sequelize.authenticate()
   .then(() => {
     res.send("It works!");
@@ -24,7 +24,12 @@ sequelize.authenticate()
   }
 
 
-app.get("/", test) 
+app.use(express.static('static'));
+
+app.get("/", (request, response) => response.sendFile(__dirname + '/index.html'));
+
+
+app.get("/testdb", testdb) 
 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Listening on port ' + listener.address().port);
