@@ -19,7 +19,7 @@ sequelize.authenticate()
     res.send("It works!");
   })
   .catch(err => {
-    res.send('It doesn't work. :-( ', err);
+    res.send('It does not work. :-( ', err);
   });
   }
 
