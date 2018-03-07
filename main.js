@@ -1,35 +1,32 @@
 const express = require('express');
-const Sequelize = require('sequelize');
 const app = express();
 
-const sequelize = new Sequelize('database', "test_user", "test_password", {
-  host: '0.0.0.0',
-  dialect: 'sqlite',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-  storage: '.data/database.sqlite'
-});
-
-function testdb(req, res){
-sequelize.authenticate()
-  .then(() => {
-    res.send("It works!");
-  })
-  .catch(err => {
-    res.send('It does not work. :-( ', err);
-  });
-  }
+const db = require('./dbops.js')
 
 
 app.use(express.static('static'));
 
-app.get("/", (request, response) => response.sendFile(__dirname + '/index.html'));
+app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
 
 
-app.get("/testdb", testdb) 
+// TESTS FOR VARIOUS FUNCTIONALITY
+
+function testdb(req, res){
+    db.db.authenticate()
+        .then(() => {
+            res.send("It works!");
+        })
+        .catch(err => {
+            res.send('It does not work. :-( ', err);
+        });
+}
+
+app.get("/testdb", testdb)
+
+const testjsondata = [{"name": "foo", "number": 1, "identity": null},
+                      {"name": "bar", "number": 2, "identity": "bat"}]
+
+app.get("/testjson", (req, res) => res.send(testjsondata));
 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Listening on port ' + listener.address().port);
