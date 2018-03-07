@@ -1,3 +1,3 @@
-var root = document.body
+var root = document.body;
 
 m.render(root, "Hello Mithril")
