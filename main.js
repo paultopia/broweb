@@ -28,6 +28,18 @@ const testjsondata = [{"name": "foo", "number": 1, "identity": null},
 
 app.get("/testjson", (req, res) => res.send(testjsondata));
 
+
+function testAdd(req, res){
+  db.addUser("paul", "gowder", "alchemy").then(res.send("added user"));
+}
+
+function testGet(req,res){
+  db.getAllUsers().then((users) => res.send(users));
+}
+
+app.get("/testadd", testAdd);
+app.get("/testget", testGet);
+
 var listener = app.listen(process.env.PORT, function () {
   console.log('Listening on port ' + listener.address().port);
 });

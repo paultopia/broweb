@@ -13,3 +13,24 @@ const connsettings = {
 
 const sequelize = new Sequelize('database', null, null, connsettings);
 exports.db = sequelize
+
+const User = sequelize.define('user', {
+  "firstName": {type: Sequelize.STRING},
+  "lastName": {type: Sequelize.STRING},
+  "id": {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
+  "gym": {type: Sequelize.STRING}
+});
+
+
+
+function addUser(first, last, gym){
+  return User.sync().then(() => User.create({"firstName": first, "lastName": last, "gym": gym}))
+}
+
+exports.addUser = addUser;
+
+function getAllUsers(callback){
+  return User.findAll();
+}
+
+exports.getAllUsers = getAllUsers;
