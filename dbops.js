@@ -18,7 +18,7 @@ const User = sequelize.define('user', {
   "firstName": {type: Sequelize.STRING},
   "lastName": {type: Sequelize.STRING},
   "id": {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-  "gym": {type: Sequelize.STRING}
+  "gym": {type: Sequelize.STRING, allowNull: false}
 });
 
 

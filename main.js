@@ -40,6 +40,14 @@ function testGet(req,res){
 app.get("/testadd", testAdd);
 app.get("/testget", testGet);
 
+function testBlowUpAdd(req, res){
+  db.addUser(null, null, null).then((_) => res.send("added user")).catch(e => res.send(e.toString()));
+}
+
+
+app.get("/testboom", testBlowUpAdd);
+
+
 var listener = app.listen(process.env.PORT, function () {
   console.log('Listening on port ' + listener.address().port);
 });
