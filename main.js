@@ -2,12 +2,18 @@ const express = require('express');
 const app = express();
 
 const db = require('./dbops.js')
+const R = require('ramda');
 
 
 app.use(express.static('static'));
 
 app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
 
+// to auto-wrap sending in a function and avoid endless anon function line noise
+function thenSend(data){
+  res = arguments.callee.caller.arguments[1]
+  return (_) => res.send(data)
+}
 
 // TESTS FOR VARIOUS FUNCTIONALITY
 
@@ -30,7 +36,7 @@ app.get("/testjson", (req, res) => res.send(testjsondata));
 
 
 function testAdd(req, res){
-  db.addUser("paul", "gowder", "alchemy").then(res.send("added user"));
+  db.addUser("paulpaul", "gowder", "alchemy").then(thenSend("added user"));
 }
 
 function testGet(req,res){
@@ -41,7 +47,7 @@ app.get("/testadd", testAdd);
 app.get("/testget", testGet);
 
 function testBlowUpAdd(req, res){
-  db.addUser(null, null, null).then((_) => res.send("added user")).catch(e => res.send(e.toString()));
+  db.addUser(null, null, null).then(thenSend("added user")).catch(e => res.send(e.toString()));
 }
 
 
