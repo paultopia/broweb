@@ -14,7 +14,6 @@ function thenSend(data){
   res = arguments.callee.caller.arguments[1]
   return (_) => res.send(data)
 }
-
 // TESTS FOR VARIOUS FUNCTIONALITY
 
 function testdb(req, res){
